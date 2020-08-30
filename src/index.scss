@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+body {
+	font-family: Inter;
+	color: rgba(0, 0, 0, 0.85);
+	background: #ebeef3;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box !important;
+}
+* {
+	margin: 0;
+	padding: 0;
+}
+label {
+	cursor: pointer;
+}
+button {
+	background-color: inherit;
+	border: none;
+	cursor: pointer;
+	&:focus {
+		outline: none;
+		border: none;
+	}
+	&:active {
+		outline: none;
+		border: none;
+	}
+}
+a {
+	text-decoration: none;
+	color: initial;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+	font-weight: normal;
+}

@@ -1,0 +1,130 @@
+$mainColor: #1890ff;
+.article-container {
+	box-sizing: border-box !important;
+	background-color: #fff;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 10px 15px;
+	border-radius: 5px;
+	filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.15));
+	margin-bottom: 20px;
+	max-width: 960px;
+	margin: auto;
+	margin-top: 25px;
+}
+.article {
+	box-sizing: border-box !important;
+	background-color: #fff;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	padding: 10px 15px;
+	border-radius: 5px;
+	filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.15));
+	margin-bottom: 20px;
+	&__header {
+		display: flex;
+		align-items: center;
+	}
+	&__like {
+		margin-left: 10px;
+		display: flex;
+		align-items: bottom;
+		font-size: 17px;
+		cursor: pointer;
+		&--active {
+			color: red;
+		}
+		&-counter {
+			display: flex;
+			margin-left: 5px;
+			font-size: 12px;
+		}
+	}
+	&__full {
+		max-width: 960px;
+		margin: auto;
+		display: flex;
+		justify-content: space-between;
+		margin-top: 25px;
+		width: 100%;
+	}
+	&__content {
+		display: flex;
+		flex-direction: column;
+	}
+	&__title {
+		color: $mainColor !important;
+		font-size: 20px;
+		line-height: 28px;
+		margin-bottom: 4px;
+	}
+	&__tags {
+		display: flex;
+		margin-bottom: 7px;
+	}
+
+	&__tag {
+		font-size: 12px;
+		cursor: pointer;
+		padding: 3px 5px;
+		margin-right: 10px;
+		display: flex;
+		color: rgba(0, 0, 0, 0.5);
+		border-radius: 3px;
+		border: 1px solid rgba(0, 0, 0, 0.5);
+	}
+	&__tag--active {
+		padding: 3px 5px;
+		display: flex;
+		color: rgba(0, 0, 0, 0.8);
+		border-radius: 3px;
+		border: 1px solid rgba(0, 0, 0, 0.8);
+	}
+	&__article {
+		font-size: 12px;
+		line-height: 22px;
+		max-width: 680px;
+		margin-bottom: 25px;
+	}
+	&__article-full {
+		font-size: 12px;
+		line-height: 22px;
+		max-width: 100%;
+		margin-bottom: 25px;
+	}
+
+	&__author-block {
+		min-width: 150px;
+		display: flex;
+		flex-direction: row;
+		cursor: pointer;
+	}
+	&__author-description {
+		display: flex;
+		flex-direction: column;
+		margin-right: 10px;
+	}
+	&__autor {
+		font-size: 18px;
+		color: rgba(0, 0, 0, 0.85);
+	}
+	&__date {
+		color: rgba(0, 0, 0, 0.5);
+		font-size: 12px;
+		line-height: 28px;
+	}
+	&__author-avatar {
+	}
+	&__image {
+		max-width: 50px;
+	}
+	&__body {
+		font-size: 20px;
+		line-height: 28px;
+		color: rgba(0, 0, 0, 0.9);
+		margin-bottom: 25px;
+	}
+}

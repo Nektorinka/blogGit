@@ -1,1 +1,1 @@
-https://blog.nektorinka.vercel.app/edit-profile
+https://blog.nektorinka.vercel.app/

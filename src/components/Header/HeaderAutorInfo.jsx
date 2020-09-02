@@ -8,25 +8,29 @@ const { setPersist } = actions;
 
 function HeaderInfoSwitch({ mainState, logOut, history }) {
 	const { isLogged, loggedInfo } = mainState;
-	if (isLogged && mainState.loggedInfo) {
+	if (isLogged && loggedInfo) {
 		const { username, image } = mainState.loggedInfo.user;
 
 		const defaultImgae = 'https://static.productionready.io/images/smiley-cyrus.jpg';
 		return (
-			<div
-				className="article__author-block header__autor"
-				onClick={() => {
-					setPersist('lock');
-					history.push('/edit-profile');
-				}}
-			>
+			<div className="article__author-block header__autor">
 				<Link to="/create-new-article" className="header-button--create-article">
 					Create article
 				</Link>
-				<div className="article__author-description">
+				<div
+					className="article__author-description"
+					onClick={() => {
+						history.push('/edit-profile');
+					}}
+				>
 					<h3 className="article__autor">{username}</h3>
 				</div>
-				<div clclassNames="article__author-avatar">
+				<div
+					className="article__author-avatar"
+					onClick={() => {
+						history.push('/edit-profile');
+					}}
+				>
 					<img src={image ? image : defaultImgae} alt="author-avatar" className="article__image" />
 				</div>
 				<Link

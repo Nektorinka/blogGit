@@ -1,34 +1,57 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import FullArticle from '../Article/FullArticle';
 import Header from '../Header/Header';
 import ArticleList from '../ArticleList/ArticleList';
-import SignUp from '../SignUp/SignUp';
-import SignIn from '../SignUp/SignIn';
-import EditProfile from '../SignUp/EditProfile';
-import CreateeNewArticle from '../SignUp/CeateNewArticle';
+import SignUp from '../Forms/SignUp';
+import SignIn from '../Forms/SignIn';
+import EditProfile from '../Forms/EditProfile';
+import EditeArticle from '../Forms/EditeArticle';
+import CreateNewArticle from '../Forms/CeateNewArticle';
+import * as actions from '../../Redux/Actions/actions';
 
-function App(props) {
+function App() {
 	return (
 		<React.Fragment>
 			<Router>
 				<Header />
 				<Route path="/" component={ArticleList} exact />
-				<Route path="/articles" component={ArticleList} exact />
 				<Route
+					path="/articles"
+					render={() => {
+						return <ArticleList />;
+					}}
+					exact
+				/>
+				<Route
+					exact
 					path="/articles/:slug"
 					render={({ match }) => {
 						const slug = match.params;
 						return <FullArticle slug={slug} />;
 					}}
 				/>
+				<Route
+					path="/articles/:slug/edit"
+					render={({ match }) => {
+						const slug = match.params;
+						return <EditeArticle slug={slug} />;
+					}}
+				/>
 				<Route path="/sign-up" component={SignUp} />
 				<Route path="/sign-in" component={SignIn} />
 				<Route path="/edit-profile" component={EditProfile} />
-				<Route path="/create-new-article" component={CreateeNewArticle} />
+				<Route exact path="/create-new-article" component={CreateNewArticle} />
 			</Router>
 		</React.Fragment>
 	);
 }
 
-export default App;
+const mapStateToProps = (state) => {
+	return {
+		mainState: state.mainReducer
+	};
+};
+
+export default connect(mapStateToProps, actions)(App);

@@ -24,6 +24,53 @@ $mainColor: #1890ff;
 	border-radius: 5px;
 	filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.15));
 	margin-bottom: 20px;
+	&__delete-btn {
+		color: #f5222d;
+		border: 1px solid #f5222d;
+		box-sizing: border-box;
+		border-radius: 5px;
+		padding: 6px 17px;
+		font-size: 14px;
+		line-height: 22px;
+		&:focus {
+			color: white;
+			background-color: #f5222d;
+			transition: .3s ease-in-out;
+			border: 1px solid #f5222d;
+		}
+		&:hover {
+			color: white;
+			background-color: #f5222d;
+			transition: .3s ease-in-out;
+		}
+		&--disable {
+			display: none;
+		}
+	}
+	&__edit-btn {
+		color: #52c41a;
+		border: 1px solid #52c41a;
+		box-sizing: border-box;
+		border-radius: 5px;
+		padding: 6px 17px;
+		font-size: 14px;
+		line-height: 22px;
+		margin-right: 10px;
+		&:focus {
+			color: white;
+			background-color: #52c41a;
+			transition: .3s ease-in-out;
+			border: 1px solid #52c41a;
+		}
+		&:hover {
+			color: white;
+			background-color: #52c41a;
+			transition: .3s ease-in-out;
+		}
+		&--disable {
+			display: none;
+		}
+	}
 	&__header {
 		display: flex;
 		align-items: center;

@@ -18,6 +18,8 @@ function articalListReducer(state = initialState, action) {
 				isLoading: false,
 				isError: true
 			};
+		case 'SET_LOAD':
+			return { ...state, isLoading: true };
 		default:
 			return state;
 	}

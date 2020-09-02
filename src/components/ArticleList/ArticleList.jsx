@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Pagination, Spin, Alert } from 'antd';
 import 'antd/dist/antd.css';
@@ -8,46 +8,59 @@ import Article from '../Article/Article';
 import * as actions from '../../Redux/Actions/actions';
 
 function renderArticles(list) {
-	return list.map((article) => {
-		return <Article data={article} />;
-	});
+	if (list) {
+		return list.map((article) => {
+			return <Article key={article.slug} data={article} />;
+		});
+	}
+	return null;
 }
 
-function ArticleList({ articleList, loadArticles }) {
-	useEffect(() => {
-		loadArticles();
-	}, []);
+function ArticleList({ articleList, loadArticles, mainState }) {
+	const [ page, setPage ] = useState(1);
+	useEffect(
+		() => {
+			if (mainState.isLogged) {
+				const token = mainState.loggedInfo.user.token;
+				loadArticles(page, token);
+			} else {
+				loadArticles(page);
+			}
+		},
+		[ page ]
+	);
 
 	const { articles } = articleList.articlesState;
 
-	if (articles) {
+	function onChange(pageNumber) {
+		setPage(pageNumber);
+	}
+
+	if (articles.isError) {
+		return (
+			<div className="articles">
+				<Alert message="Произошла ошибка. Обновите страницу" type="error" />
+			</div>
+		);
+	}
+
+	if (!articleList.isLoading) {
 		return (
 			<div className="articles">
 				{renderArticles(articles)}
 				<div className="paginator">
-					<Pagination size="small" total={50} />
+					<Pagination size="small" total={500} onChange={onChange} showSizeChanger={false} />
 				</div>
 			</div>
 		);
-	}
-
-	if (articleList.isLoading) {
+	} else {
 		const antIcon = <LoadingOutlined style={{ fontSize: 56 }} spin />;
 		return (
 			<div className="articles">
 				<Spin indicator={antIcon} />
-				{articles ? renderArticles(articles) : null}
 				<div className="paginator">
-					<Pagination size="small" total={50} />
+					<Pagination size="small" total={500} showSizeChanger={false} />
 				</div>
-			</div>
-		);
-	}
-
-	if (articleList.isError) {
-		return (
-			<div className="articles">
-				<Alert message="Произошла ошибка. Обновите страницу" type="error" />
 			</div>
 		);
 	}
@@ -55,7 +68,8 @@ function ArticleList({ articleList, loadArticles }) {
 
 const mapStateToProps = (state) => {
 	return {
-		articleList: state.articalListReducer
+		articleList: state.articalListReducer,
+		mainState: state.mainReducer
 	};
 };
 

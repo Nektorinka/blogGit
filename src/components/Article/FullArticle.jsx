@@ -1,21 +1,40 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import './article.scss';
-import ServiceApi from '../../services/serviceApi';
-import { renderTags, renderDate } from './articleFunctions';
 import { HeartOutlined } from '@ant-design/icons';
+import { Popconfirm } from 'antd';
 import Markdown from 'markdown-to-jsx';
+import { renderTags, renderDate } from './articleFunctions';
+import ServiceApi from '../../services/serviceApi';
+import * as actions from '../../Redux/Actions/actions';
 
-function FulllArticle({ slug, history }) {
+function FulllArticle({ slug, history, mainState }) {
 	const [ data, setData ] = useState([]);
 	const myService = new ServiceApi();
-	useEffect(() => {
-		myService.getFullArticle(slug.slug).then((res) => {
-			return setData(res);
-		});
-	}, []);
+	useEffect(
+		() => {
+			if (isLogged) {
+				myService.getFullArticle(slug.slug, mainState.loggedInfo.user.token).then((res) => {
+					return setData(res);
+				});
+			} else {
+				myService.getFullArticle(slug.slug).then((res) => {
+					return setData(res);
+				});
+			}
+		},
+		[ mainState ]
+	);
 
-	console.log(slug);
+	const { isLogged } = mainState;
+
+	const text = 'Are you sure to delete this article?';
+
+	function confirm() {
+		myService.deleteArticle(mainState.loggedInfo.user.token, slug.slug).then((res) => history.push('/'));
+	}
+
 	if (data.article) {
 		return (
 			<div className="article-container">
@@ -23,19 +42,17 @@ function FulllArticle({ slug, history }) {
 					<div className="article__content">
 						<div className="article__header">
 							<h2 className="article__title">{data.article.title}</h2>
-							<div
-								className={`article__like article__${data.article.favorited ? 'like--active' : null} `}
-							>
+							<div className={`article__like ${data.article.favorited ? `article__like--active` : ``} `}>
 								<HeartOutlined
 									onClick={() => {
-										if (localStorage.userInfo) {
+										if (isLogged) {
 											if (!data.article.favorited) {
 												myService
-													.setLike(slug.slug, JSON.parse(localStorage.userInfo).user.token)
+													.setLike(slug.slug, mainState.loggedInfo.user.token)
 													.then((response) => setData(response));
 											} else {
 												myService
-													.unsetLike(slug.slug, JSON.parse(localStorage.userInfo).user.token)
+													.unsetLike(slug.slug, mainState.loggedInfo.user.token)
 													.then((response) => setData(response));
 											}
 										} else {
@@ -53,6 +70,33 @@ function FulllArticle({ slug, history }) {
 						<div className="article__author-description">
 							<h3 className="article__autor">{data.article.author.username}</h3>
 							<h4 className="article__date">{renderDate(data.article.createdAt)} </h4>
+							<div className="article__btns">
+								<button
+									type="button"
+									className={`article__edit-btn ${!isLogged ? `article__edit-btn--disable` : null}`}
+									onClick={() => {
+										history.push(`/articles/${slug.slug}/edit`);
+									}}
+								>
+									Edit
+								</button>
+								<Popconfirm
+									placement="right"
+									title={text}
+									onConfirm={confirm}
+									okText="Yes"
+									cancelText="No"
+								>
+									<button
+										type="button"
+										className={`article__delete-btn ${!isLogged
+											? `article__delete-btn--disable`
+											: null}`}
+									>
+										Delete
+									</button>
+								</Popconfirm>
+							</div>
 						</div>
 						<div clclassNames="article__author-avatar">
 							<img src={data.article.author.image} alt="author-avatar" className="article__image" />
@@ -69,4 +113,10 @@ function FulllArticle({ slug, history }) {
 	return null;
 }
 
-export default withRouter(FulllArticle);
+const mapStateToProps = (state) => {
+	return {
+		mainState: state.mainReducer
+	};
+};
+
+export default withRouter(connect(mapStateToProps, actions)(FulllArticle));

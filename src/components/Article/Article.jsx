@@ -17,9 +17,7 @@ function Article({ mainState, data, history }) {
 	}
 	const { isLogged } = mainState;
 
-	console.log(isLogged);
 	const myService = new ServiceApi();
-
 	return (
 		<div className="article">
 			<div className="article__content">

@@ -36,13 +36,13 @@ function ArticleList({ articleList, loadArticles, mainState }) {
 		setPage(pageNumber);
 	}
 
-	if (articles.isError) {
-		return (
-			<div className="articles">
-				<Alert message="Произошла ошибка. Обновите страницу" type="error" />
-			</div>
-		);
-	}
+	// if (articles.isError) {
+	// 	return (
+	// 		<div className="articles">
+	// 			<Alert message="Произошла ошибка. Обновите страницу" type="error" />
+	// 		</div>
+	// 	);
+	// }
 
 	if (!articleList.isLoading) {
 		return (

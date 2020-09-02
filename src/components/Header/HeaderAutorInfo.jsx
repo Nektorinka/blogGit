@@ -4,8 +4,6 @@ import { Link, withRouter } from 'react-router-dom';
 import * as actions from '../../Redux/Actions/actions';
 import './header.scss';
 
-const { setPersist } = actions;
-
 function HeaderInfoSwitch({ mainState, logOut, history }) {
 	const { isLogged, loggedInfo } = mainState;
 	if (isLogged && loggedInfo) {

@@ -34,7 +34,7 @@ function FulllArticle({ slug, history, mainState }) {
 	function confirm() {
 		myService.deleteArticle(mainState.loggedInfo.user.token, slug.slug).then((res) => history.push('/'));
 	}
-
+	console.log(mainState, data);
 	if (data.article) {
 		return (
 			<div className="article-container">
@@ -71,15 +71,6 @@ function FulllArticle({ slug, history, mainState }) {
 							<h3 className="article__autor">{data.article.author.username}</h3>
 							<h4 className="article__date">{renderDate(data.article.createdAt)} </h4>
 							<div className="article__btns">
-								<button
-									type="button"
-									className={`article__edit-btn ${!isLogged ? `article__edit-btn--disable` : null}`}
-									onClick={() => {
-										history.push(`/articles/${slug.slug}/edit`);
-									}}
-								>
-									Edit
-								</button>
 								<Popconfirm
 									placement="right"
 									title={text}
@@ -89,13 +80,26 @@ function FulllArticle({ slug, history, mainState }) {
 								>
 									<button
 										type="button"
-										className={`article__delete-btn ${!isLogged
+										className={`article__delete-btn ${!isLogged ||
+										mainState.loggedInfo.user.username !== data.article.author.username
 											? `article__delete-btn--disable`
 											: null}`}
 									>
 										Delete
 									</button>
 								</Popconfirm>
+								<button
+									type="button"
+									className={`article__edit-btn ${!isLogged ||
+									mainState.loggedInfo.user.username !== data.article.author.username
+										? `article__edit-btn--disable`
+										: null}`}
+									onClick={() => {
+										history.push(`/articles/${slug.slug}/edit`);
+									}}
+								>
+									Edit
+								</button>
 							</div>
 						</div>
 						<div clclassNames="article__author-avatar">

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './header.scss';
-import * as actions from '../../Redux/Actions/actions';
 import HeaderInfoSwitch from './HeaderAutorInfo';
 
 function Header({ mainState }) {
@@ -23,4 +22,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, actions)(Header);
+export default connect(mapStateToProps)(Header);

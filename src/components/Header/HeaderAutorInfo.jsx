@@ -65,4 +65,6 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default withRouter(connect(mapStateToProps, actions)(HeaderInfoSwitch));
+const { logOut } = actions;
+
+export default withRouter(connect(mapStateToProps, { logOut })(HeaderInfoSwitch));

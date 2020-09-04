@@ -4,8 +4,7 @@ import { Link, withRouter } from 'react-router-dom';
 import './article.scss';
 import { renderTags, renderDate } from './articleFunctions';
 import { HeartOutlined } from '@ant-design/icons';
-import ServiceApi from '../../services/serviceApi';
-import * as actions from '../../Redux/Actions/actions';
+import { myService } from '../../services/serviceApi';
 
 function Article({ mainState, data, history }) {
 	const [ dataState, setData ] = useState(data);
@@ -17,7 +16,6 @@ function Article({ mainState, data, history }) {
 	}
 	const { isLogged } = mainState;
 
-	const myService = new ServiceApi();
 	return (
 		<div className="article">
 			<div className="article__content">
@@ -64,4 +62,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default withRouter(connect(mapStateToProps, actions)(Article));
+export default withRouter(connect(mapStateToProps)(Article));

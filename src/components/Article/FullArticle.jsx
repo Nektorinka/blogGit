@@ -6,12 +6,10 @@ import { HeartOutlined } from '@ant-design/icons';
 import { Popconfirm } from 'antd';
 import Markdown from 'markdown-to-jsx';
 import { renderTags, renderDate } from './articleFunctions';
-import ServiceApi from '../../services/serviceApi';
-import * as actions from '../../Redux/Actions/actions';
+import { myService } from '../../services/serviceApi';
 
 function FulllArticle({ slug, history, mainState }) {
 	const [ data, setData ] = useState([]);
-	const myService = new ServiceApi();
 	useEffect(
 		() => {
 			if (isLogged) {
@@ -34,7 +32,6 @@ function FulllArticle({ slug, history, mainState }) {
 	function confirm() {
 		myService.deleteArticle(mainState.loggedInfo.user.token, slug.slug).then((res) => history.push('/'));
 	}
-	console.log(mainState, data);
 	if (data.article) {
 		return (
 			<div className="article-container">
@@ -123,4 +120,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default withRouter(connect(mapStateToProps, actions)(FulllArticle));
+export default withRouter(connect(mapStateToProps)(FulllArticle));

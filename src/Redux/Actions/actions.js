@@ -1,4 +1,4 @@
-import ServiceApi from '../../services/serviceApi';
+import { myService } from '../../services/serviceApi';
 
 export function setArticlesInStore(payload) {
 	return {
@@ -22,7 +22,6 @@ export function setError() {
 		type: 'SET_ERROR'
 	};
 }
-const myService = new ServiceApi();
 
 export function loadArticles(page, token = null) {
 	return async function cb(dispatch) {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Pagination, Spin, Alert } from 'antd';
+import { Pagination, Spin } from 'antd';
 import 'antd/dist/antd.css';
 import { LoadingOutlined } from '@ant-design/icons';
 import './articleList.scss';
@@ -36,14 +36,6 @@ function ArticleList({ articleList, loadArticles, mainState }) {
 		setPage(pageNumber);
 	}
 
-	// if (articles.isError) {
-	// 	return (
-	// 		<div className="articles">
-	// 			<Alert message="Произошла ошибка. Обновите страницу" type="error" />
-	// 		</div>
-	// 	);
-	// }
-
 	if (!articleList.isLoading) {
 		return (
 			<div className="articles">
@@ -72,5 +64,5 @@ const mapStateToProps = (state) => {
 		mainState: state.mainReducer
 	};
 };
-
-export default connect(mapStateToProps, actions)(ArticleList);
+const { loadArticles } = actions;
+export default connect(mapStateToProps, { loadArticles })(ArticleList);

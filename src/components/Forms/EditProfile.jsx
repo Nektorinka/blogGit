@@ -3,15 +3,15 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import './signUp.scss';
-import ServiceApi from '../../services/serviceApi';
+import { myService } from '../../services/serviceApi';
 import * as actions from '../../Redux/Actions/actions';
 
 function EditProfile({ mainState, logIn }) {
 	const { register, handleSubmit, errors } = useForm();
+
 	if (!mainState.isLogged) {
 		return <Redirect to="/" />;
 	}
-	const myService = new ServiceApi();
 
 	const { token, email, username } = mainState.loggedInfo.user;
 
@@ -114,4 +114,5 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, actions)(EditProfile);
+const { logIn } = actions;
+export default connect(mapStateToProps, { logIn })(EditProfile);

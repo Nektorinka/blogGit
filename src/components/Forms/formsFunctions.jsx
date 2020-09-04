@@ -12,7 +12,7 @@ export const renderTags = (tagsArray = [], { ...cb }) => {
 	const { tagsState, setTag } = cb;
 	return tagsArray.map((tag, index) => {
 		return (
-			<div className="form__tag">
+			<div key={index} className="form__tag">
 				<input type="text" className="form__input" placeholder="Tag" value={tag} />
 				<button
 					type="button"

@@ -1,6 +1,17 @@
 export default class ServiceApi {
-	constructor() {
-		this.base = 'https://conduit.productionready.io/api/';
+	headers(token = null) {
+		if (token === null) {
+			const headers = {
+				'Content-Type': 'application/json'
+			};
+			return headers;
+		} else {
+			const headers = {
+				'Content-Type': 'application/json',
+				Authorization: `Token ${token}`
+			};
+			return headers;
+		}
 	}
 
 	async getArticles(page = 1) {
@@ -17,21 +28,17 @@ export default class ServiceApi {
 
 	async getAutArticles(page = 0, token = null) {
 		const offset = page * 20 - 20;
-		const headers = {
-			'Content-Type': 'application/json',
-			Authorization: `Token ${token}`
-		};
 		if (token !== null) {
 			try {
 				const response = await fetch(`https://conduit.productionready.io/api/articles?offset=${offset}`, {
 					method: 'GET',
-					headers
+					headers: this.headers(token)
 				});
 				return await response.json();
 			} catch (error) {
 				const response = await fetch(`https://conduit.productionready.io/api/articles?offset=${offset}`, {
 					method: 'GET',
-					headers
+					headers: this.headers(token)
 				});
 				const res = await response.json();
 				return res;
@@ -50,30 +57,26 @@ export default class ServiceApi {
 
 	async getFullArticle(slug, token = null) {
 		if (token) {
-			const headers = {
-				'Content-Type': 'application/json',
-				Authorization: `Token ${token}`
-			};
 			try {
-				const response = await fetch(`${this.base}articles/${slug}`, {
+				const response = await fetch(`https://conduit.productionready.io/api/articles/${slug}`, {
 					method: 'GET',
-					headers
+					headers: this.headers(token)
 				});
 				return await response.json();
 			} catch (error) {
-				const response = await fetch(`${this.base}articles/${slug}`, {
+				const response = await fetch(`https://conduit.productionready.io/api/articles/${slug}`, {
 					method: 'GET',
-					headers
+					headers: this.headers(token)
 				});
 				const res = await response.json();
 				return res;
 			}
 		} else {
 			try {
-				const response = await fetch(`${this.base}articles/${slug}`);
+				const response = await fetch(`https://conduit.productionready.io/api/articles/${slug}`);
 				return await response.json();
 			} catch (error) {
-				const response = await fetch(`${this.base}articles/${slug}`);
+				const response = await fetch(`https://conduit.productionready.io/api/articles/${slug}`);
 				const res = await response.json();
 				return res;
 			}
@@ -81,47 +84,37 @@ export default class ServiceApi {
 	}
 
 	async signUp(body) {
-		const headers = {
-			'Content-Type': 'application/json'
-		};
 		return fetch(`https://conduit.productionready.io/api/users`, {
 			method: 'POST',
 			body: JSON.stringify(body),
-			headers
+			headers: this.headers()
 		}).then((response) => {
 			return response.json();
 		});
 	}
 
 	async sigIn(body) {
-		const headers = {
-			'Content-Type': 'application/json'
-		};
 		return fetch(`https://conduit.productionready.io/api/users/login`, {
 			method: 'POST',
 			body: JSON.stringify(body),
-			headers
+			headers: this.headers()
 		}).then((response) => {
 			return response.json();
 		});
 	}
 
 	async setLike(slug, token = null) {
-		const headers = {
-			'Content-Type': 'application/json',
-			Authorization: `Token ${token}`
-		};
 		try {
 			return fetch(`https://conduit.productionready.io/api/articles/${slug}/favorite`, {
 				method: 'POST',
-				headers
+				headers: this.headers(token)
 			}).then((response) => {
 				return response.json();
 			});
 		} catch (error) {
 			return fetch(`https://conduit.productionready.io/api/articles/${slug}/favorite`, {
 				method: 'POST',
-				headers
+				headers: this.headers(token)
 			}).then((response) => {
 				return response.json();
 			});
@@ -129,21 +122,17 @@ export default class ServiceApi {
 	}
 
 	async unsetLike(slug, token = null) {
-		const headers = {
-			'Content-Type': 'application/json',
-			Authorization: `Token ${token}`
-		};
 		try {
 			return fetch(`https://conduit.productionready.io/api/articles/${slug}/favorite`, {
 				method: 'DELETE',
-				headers
+				headers: this.headers(token)
 			}).then((response) => {
 				return response.json();
 			});
 		} catch (error) {
 			return fetch(`https://conduit.productionready.io/api/articles/${slug}/favorite`, {
 				method: 'DELETE',
-				headers
+				headers: this.headers(token)
 			}).then((response) => {
 				return response.json();
 			});
@@ -152,10 +141,6 @@ export default class ServiceApi {
 
 	async updateUser(data, token) {
 		const { email, url, username, password } = data;
-		const headers = {
-			'Content-Type': 'application/json',
-			Authorization: `Token ${token}`
-		};
 		const body = {
 			user: {
 				email,
@@ -167,7 +152,7 @@ export default class ServiceApi {
 		try {
 			return fetch(`https://conduit.productionready.io/api/user`, {
 				method: 'PUT',
-				headers,
+				headers: this.headers(token),
 				body: JSON.stringify(body)
 			}).then((response) => {
 				if (response.ok) {
@@ -178,7 +163,7 @@ export default class ServiceApi {
 		} catch (error) {
 			return fetch(`https://conduit.productionready.io/api/user`, {
 				method: 'PUT',
-				headers,
+				headers: this.headers(token),
 				body: JSON.stringify(body)
 			}).then((response) => {
 				if (response.ok) {
@@ -190,10 +175,6 @@ export default class ServiceApi {
 	}
 
 	async createArticle(token, { title, shortDescription, text, tags }) {
-		const headers = {
-			'Content-Type': 'application/json',
-			Authorization: `Token ${token}`
-		};
 		const bodyReq = {
 			article: {
 				title,
@@ -205,7 +186,7 @@ export default class ServiceApi {
 		try {
 			const response = await fetch(`https://conduit.productionready.io/api/articles`, {
 				method: 'POST',
-				headers,
+				headers: this.headers(token),
 				body: JSON.stringify(bodyReq)
 			});
 			if (response.ok) {
@@ -215,7 +196,7 @@ export default class ServiceApi {
 		} catch (error) {
 			const response = await fetch(`https://conduit.productionready.io/api/articles`, {
 				method: 'POST',
-				headers,
+				headers: this.headers(token),
 				body: JSON.stringify(bodyReq)
 			});
 			if (response.ok) {
@@ -226,14 +207,10 @@ export default class ServiceApi {
 	}
 
 	async deleteArticle(token, slug) {
-		const headers = {
-			'Content-Type': 'application/json',
-			Authorization: `Token ${token}`
-		};
 		try {
 			const response = await fetch(`https://conduit.productionready.io/api/articles/${slug}`, {
 				method: 'DELETE',
-				headers
+				headers: this.headers(token)
 			});
 			if (response.ok) {
 				return response.json();
@@ -242,7 +219,7 @@ export default class ServiceApi {
 		} catch (error) {
 			const response = await fetch(`https://conduit.productionready.io/api/articles/${slug}`, {
 				method: 'DELETE',
-				headers
+				headers: this.headers(token)
 			});
 			if (response.ok) {
 				return response.json();
@@ -253,10 +230,10 @@ export default class ServiceApi {
 
 	async editArticle(token, slug, data) {
 		const { title, shortDescription, tags, text } = data;
-		const headers = {
-			'Content-Type': 'application/json',
-			Authorization: `Token ${token}`
-		};
+		// const headers = {
+		// 	'Content-Type': 'application/json',
+		// 	Authorization: `Token ${token}`
+		// };
 		const body = {
 			article: {
 				title,
@@ -268,7 +245,7 @@ export default class ServiceApi {
 		try {
 			const response = await fetch(`https://conduit.productionready.io/api/articles/${slug}`, {
 				method: 'PUT',
-				headers,
+				headers: this.headers(token),
 				body: JSON.stringify(body)
 			});
 			if (response.ok) {
@@ -278,7 +255,7 @@ export default class ServiceApi {
 		} catch (error) {
 			const response = await fetch(`https://conduit.productionready.io/api/articles/${slug}`, {
 				method: 'PUT',
-				headers,
+				headers: this.headers(token),
 				body: JSON.stringify(body)
 			});
 			if (response.ok) {
@@ -288,3 +265,5 @@ export default class ServiceApi {
 		}
 	}
 }
+
+export const myService = new ServiceApi();

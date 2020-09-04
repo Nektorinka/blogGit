@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import FullArticle from '../Article/FullArticle';
 import Header from '../Header/Header';
@@ -9,7 +8,6 @@ import SignIn from '../Forms/SignIn';
 import EditProfile from '../Forms/EditProfile';
 import EditeArticle from '../Forms/EditeArticle';
 import CreateNewArticle from '../Forms/CeateNewArticle';
-import * as actions from '../../Redux/Actions/actions';
 
 function App() {
 	return (
@@ -48,10 +46,4 @@ function App() {
 	);
 }
 
-const mapStateToProps = (state) => {
-	return {
-		mainState: state.mainReducer
-	};
-};
-
-export default connect(mapStateToProps, actions)(App);
+export default App;

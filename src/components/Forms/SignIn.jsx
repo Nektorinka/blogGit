@@ -5,14 +5,13 @@ import { useForm } from 'react-hook-form';
 import './signUp.scss';
 import { Alert } from 'antd';
 import * as actions from '../../Redux/Actions/actions';
-import ServiceApi from '../../services/serviceApi';
+import { myService } from '../../services/serviceApi';
 import { renderErrors } from './formsFunctions';
 
 function SignIn({ logIn, setErrorInMain, mainState, history }) {
 	const [ sucsessLog, setSucsessLog ] = useState(false);
 
 	const { register, handleSubmit, errors } = useForm();
-	const myService = new ServiceApi();
 	async function onSubmit(data) {
 		try {
 			const response = await myService.sigIn({
@@ -118,4 +117,6 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default withRouter(connect(mapStateToProps, actions)(SignIn));
+const { logIn, setErrorInMain } = actions;
+
+export default withRouter(connect(mapStateToProps, { logIn, setErrorInMain })(SignIn));
